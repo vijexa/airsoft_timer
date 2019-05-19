@@ -31,10 +31,8 @@ LiquidCrystal_I2C lcd(I2C_ADDR, 16, 2);
 
 void setup()
 {
-  delay(100);
-  
   #ifdef DEBUG
-  Serial.begin(9600);
+    Serial.begin(9600);
   #endif
   
   //setting up display
@@ -158,8 +156,6 @@ void loop()
       
       lcd.clear();
     }
-    
-    arm_pres = 0;
   } else if(disarm_pres && !exploded){
     if(ticking){
       turn_off_timer();
@@ -169,9 +165,9 @@ void loop()
       force_refresh = 1;
       disarmed = 1;
     }
-    
-    disarm_pres = 0;
   }
+  arm_pres = 0;
+  disarm_pres = 0;
   
   // showing screen
   if(force_refresh || second_tick){
@@ -202,7 +198,7 @@ void loop()
         if(seconds_left == 0) exploded = 1;
 
         #ifdef DEBUG
-        Serial.println(seconds_left + " seconds left");
+          Serial.println(seconds_left + " seconds left");
         #endif
         
         // beeping 
@@ -282,9 +278,9 @@ ISR(TIMER2_COMPA_vect){
   if(int_tone){
     tone_counter++;
     if(int_ultrafast_beep) {
-      count_goal = 25;
+      count_goal = 31;
     } else {
-      count_goal = 50;
+      count_goal = 62;
     }
     if(tone_counter == count_goal){
       NewTone(BUZZER, NORMAL_BEEP, BEEP_LENGTH);
@@ -322,5 +318,3 @@ void turn_on_timer(){
 void turn_off_timer(){
   TIMSK2 = 0;
 }
-
-
